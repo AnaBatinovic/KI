@@ -52,8 +52,11 @@
 
 \usepackage{lmodern}
 \usepackage{nccmath}
+\usepackage{mathptmx}
 \usepackage[keeplastbox]{flushend}
 \usepackage{scalerel,stackengine}
+\DeclareMathOperator*{\argmax}{argmax} % thin space, limits underneath in displays
+\DeclareMathOperator*{\argmin}{argmin}
 \stackMath
 \newcommand\reallywidehat[1]{%
 	\savestack{\tmpbox}{\stretchto{%
@@ -82,8 +85,10 @@
 \graphicspath{{./figures/}}
 \usepackage{float}
 
+\providecommand{\indexterms}[1]{\textbf{\textit{Index terms---}} #1}
+
 \title{\LARGE \bf
-	Exploration
+	A Survey on Multi-Robot Autonomous Coordinated Exploration Strategies
 }
 \author{Ana Batinovi\'{c} \\
 	University of Zagreb, Faculty of Electrical Engineering and Computing \\
@@ -109,11 +114,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
+This paper proposes a short overview of multi-robot exploration strategies for unknown environments. An efficient exploration strategy and coordination method could enhance autonomy and performance of multi-robot systems. This paper focuses on multi-robot system with coordinated robots that could accomplish an unknown area exploration as fast as possible. These strategies play an important role in 2D as well as in 3D spaces. Therefore, this paper presents a systematic survey on the existing literature on coordination and exploration in the both spaces. A brief conclusion and further research perspectives are given at the end of the paper. 
+ 
+\indexterms{Multi-Robot System, Target Point, Exploration, Mapping.}
+
 \end{abstract}
 \input{content/introduction.tex}
-%\input{content/control.tex}
-%\input{content/simulation.tex}
-%\input{content/experiments.tex}
+\input{content/2d_strategies.tex}
+\input{content/3d_strategies.tex}
+\input{content/cooperative.tex}
 \input{content/conclusion.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
