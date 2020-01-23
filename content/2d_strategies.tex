@@ -10,7 +10,13 @@ There are several representative approaches from the both centralized and decent
 
 \subsection{Nearest Frontier Approach} 
 
-An unexplored area is usually represented using an occupancy grid map introduced by \cite{Moravec}. While a robot moves, an occupancy likelihood for each cell of the grid is updated with the information of sensors. Depending on this occupancy likelihood, cells can be classified as free, occupied or unknown. Using an occupancy grid a mobile robot can reach an unexplored zone navigating to the frontier cells that separate the free cells from the unknown cells known as \textit{frontiers} \cite{Yamauchi1997}. Yamauchi's technique consists in selecting the shortest path to the nearest frontier. In this way, the target cell selected by this technique $t_{NF}$ is:
+\begin{figure}[t!]
+	\centering
+	\fbox{\includegraphics[width=1.0\columnwidth]{./pictures/rviz_environment.pdf}}
+	\caption {The environment is represented by a 2D map, with an occupancy grid that divides the map into cells: white cells describe free while grey cells unknown space. Black cells define occupied space (obstacles). Frontiers (red) and filtered frontiers (green).}
+	\label{fig:environment}
+\end{figure}
+An unexplored area is usually represented using an occupancy grid map introduced by \cite{Moravec}. While a robot moves, an occupancy likelihood for each cell of the grid is updated with the information of sensors. Depending on this occupancy likelihood, cells can be classified as free, occupied or unknown (Fig. \ref{fig:environment}). Using an occupancy grid a mobile robot can reach an unexplored zone navigating to the frontier cells that separate the free cells from the unknown cells known as \textit{frontiers} \cite{Yamauchi1997}. Yamauchi's technique consists in selecting the shortest path to the nearest frontier. In this way, the target cell selected by this technique $t_{NF}$ is:
 
 \begin{equation}
 t_{NF} = \argmin_{a \in F} L(a), 
@@ -32,6 +38,7 @@ Rekeleitis \cite{Rekeleitis2000} covered terrains with multiple robots where at 
 Generally, in a cost-utility approach a goal point maximizes the benefit between cost and utility. The utility is measured in terms of the expectation of the information incorporated to the occupancy map from the position of the goal point. An example of cost-utility approach was presented by González-Baños and Latombe \cite{GonzlezBaos2002}. Frontier cells are designated as candidate destinations and the benefit $B_{CU}(a)$ to reach a candidate cell a is evaluated according to the following expression \cite{Julia2012}:
 \begin{equation}
 B_{CU}(a) = U(a) - \lambda_{CU}C(a),
+\label{equation:cost-utility}
 \end{equation}
 
 where $U(a)$ is a utility function, $C(a)$ is a cost function and $\lambda$ is a constant that adjusts the relative importance between both factors. Utility and cost functions are expressions normalized in the range $\left[0, 1\right]$ that are calculated as follows:
@@ -54,44 +61,28 @@ Similar to the work proposed by Simmons, Burgard \cite{Burgard2000} introduced s
 Another example of cost-utility model is given in \cite{Umari2017}, where a frontier detection method is based on Rapidly Exploring Random Trees (RRTs). Umari defined revenue from a frontier point as a combination of an information gain and navigation cost. 
 
 
-\subsection{Market-Based Coordinated}
+\subsection{Market-Based Coordinated Approach}
 
-%Relatively close to Burgard‟s approach in Collaborative Multi-Robot Exploration, Zlot [27] uses
-%the concept of frontier cells and utility in a market environment to produce complex coordinated
-%behavior between multi-robots for exploration. In this approach, exploration is performed by
-%visiting goal points (referred to as target points in Burgard‟s work) in unexplored regions. A
-%robot contains a task list called a tour which contains several goal points. Tours are refined
-%through robot negotiation in the market, and allows the robots to improve their exploration in an
-%efficient manner. Each robot has a market agent called the operator executive, or OpExec, which
-%is responsible for processing bids, handling revenue, and so forth. The revenue function is
-%similar to Burgard‟s, where P = R – C.
-%Tasks are the primary commodity handled in the market. By definition, a task is a singular goal
-%point to visit, thus a key component of the system is the methodology by which goal points are
-%selected. Four different strategies are analyzed: random, greedy, quadtree division, and no
-%communication. In the random strategy, goal points are selected by a random process, but any
-%goal points are discarded if the area surrounding the goal point has been visited. The greedy
-%process chooses the goal point in the closest unexplored region to the robot. The quadtree
-%strategy transforms the space into a quadtree representation, and the largest unknown leaf regions
-%are selected as candidates for exploration, with goal points located at the center of the leaf. The
-%no communication scenario emulates robots with no coordination available. In this case, robots
-%used the random goal generation strategy without any information sharing.
-%Robots negotiate using single-item first-price sealed-bid auctions, and may auction any of their
-%tasks in their current tour. The robots internal valuation of the task is the profit expected if the
-%task was added to the robots existing tour, and the auctioneer then announces a reservation price
-%Pr, where Pr is the robots valuation plus a small fixed amount. Bidding strategies for robots are
-%defined by the formula: 
-%Where a is between 0 and 1, with higher coefficients resulting in an increased incentive to sell
-%the item, while at the same time the buyer gets a large fraction of their valuation if they win.
-%This enables the robot to effectively sell an item to the robot that can perform the task most
-%efficiently.
-%The system is responsive to robot loss due to the nature of the goal generation strategy. If a robot
-%fails while completing a tour, existing robots will eventually generate goal points in those areas,
-%thereby negating the loss of that robot. In addition, map sharing is done at explicit intervals (and
-%can be manually performed by a human operator), where a robot periodically sends out a small
-%explored section of its own map on a peer-to-peer basis with robots in communication range. The
-%maps are composed in a simplistic manner whereas [3] uses a probabilistic mechanism to
-%combine occupancy maps. Experimental results indicate that the market based economy
-%functions much better than a non-coordinated approach. Both random and quadtree goal point
-%selection strategies have an area covered to distance traveled ratio of greater than 1, while the no
-%communication strategy ratio is significantly less than 1, meaning that robots are covering less
-%area than they are traveling.
+The general concept of the market-based approaches includes independence of robots in terms of planning, and the ability of robots to take team resources into account.
+Relatively close to Burgard's approach in \cite{Burgard2000}, Zlot \cite{Zlot2002} uses a market architecture for the multi-robot mapping and exploration problem that aims to minimize an overall exploration time. In market-based coordinated approach each robot contains a list of goal points and profits associated with (\ref{equation:cost-utility}). Each robot selects the most profitable target as destination and when after reaching a current goal point, a robot initiates an auction. For each point in auction, each robot makes a bid with its current profit aiming to minimize own travel distance and maximize new area information.
+
+It is shown in \cite{Dias2003} when different team sizes are included, a market method has an advantage over a centralized approach in terms of traveled distance. Authors in \cite{Zlot2002} 
+
+Michael et al. \cite{Michael2008} proposed a marked-based coordination protocols where robots are able to bid for task assignment with the assumption that every robot has knowledge of the maximum number of robots that any given task can accommodate. Each auction is performed among neighboring groups of robots and requires only local communication.
+
+\subsection{Decentralized Coordinated Approach}
+
+Exploration strategies include algorithms for assigning robots to target points for environment exploration. Such algorithms can be grouped into centralized and decentralized algorithms. In the  centralized approach, each mobile robot receives tasks from a single central \emph{leader} which runs the overall planning algorithm, and afterwards the mobile robot sends its info back to the leader. Centralized assignment may be less practical due to communication limits \cite{Dias2000}, robustness issues \cite{Dias2006}, or time required for algorithm execution and scalability \cite{Julia2012}. An advantage of centralized approach is that optimal plans can be found in\cite{Yan2011}. 
+
+In contrast to centralized approaches, in a decentralized approach, the mobile robots are completely independent throughout the exploration process. Each mobile robot has its own local knowledge of the world and can decide its future actions by taking into account its current context and tasks, its own capacities and the capacities of the other mobile robots, through a negotiation process (\cite{Yan2013}). Moreover, it typically has better reliability, flexibility, adaptability and robustness (\cite{Zlot2002}). 
+
+Our approach is a hybrid one - the robots can independently decide towards which target point to navigate using an optimization procedure, while having common knowledge of all target frontier points and sharing information on their position and current goals.  our approach is hybrid and uses slightly different objective functions for frontier points assignment, which are a combination of frontier point cost, utility of reaching the target point and \textit{frontier occupancy function}. We also cluster frontier points to get a problem of manageable size and thus enable application of known optimization algorithms. 
+Our approach is hybrid in a manner that target point assignment process and navigation are fully decentralized and event-based, that is, each robot team member makes an individual decision on the next target point each time it reaches the previous one. On the other side, SLAM extended with frontier detection and filter module are a centralized part of the exploration and mapping process.
+
+Overview of the system is given in Fig. \ref{fig:exploration-strategy}. The system consists of a centralized part (Simultaneous Localization and Mapping (SLAM), frontier detection and frontier points filter), which runs on a dedicated computer and a decentralized part (Exploration strategy and navigation), which runs on each robot. In the following text each part is described separately.
+
+\begin{figure}[t!]
+	\centering\includegraphics[width=1.0\columnwidth]{./pictures/diagram_exploration.pdf}
+	\caption{Overall schematic diagram of the decentralized exploration and mapping process for $n$ mobile robots in the simulator. Google Cartographer SLAM and filter module (highlighted in red) generate filtered frontier points that are (currently) the centralized part of exploration and mapping process. The exploration strategy, path planning and navigation module (highlighted green) are decentralized parts that generate $n$ outputs and create a common map.}
+	\label{fig:exploration-strategy}
+\end{figure}
