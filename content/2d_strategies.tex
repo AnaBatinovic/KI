@@ -1,10 +1,10 @@
 \section{2d exploration strategies}
 
-Exploration algorithms can be grouped into centralized and decentralized. In the  centralized approach, each mobile robot receives tasks from a single central \emph{leader} which runs the overall planning algorithm, and afterwards the mobile robot sends its info back to the leader. Centralized assignment may be less practical due to communication limits (\cite{Dias2000}), robustness issues (\cite{Dias2006}), or time required for algorithm execution and scalability (\cite{Julia2012}). An advantage of centralized approach is that optimal plans can be found (\cite{Yan2011}). 
+Exploration algorithms can be grouped into centralized, distributed and decentralized. In the  centralized approach, each mobile robot receives tasks from a single central \emph{leader} which runs the overall planning algorithm, and afterwards the mobile robot sends its info back to the leader. Centralized assignment may be less practical due to communication limits (\cite{Dias2000}), robustness issues (\cite{Dias2006}), or time required for algorithm execution and scalability (\cite{Julia2012}). An advantage of centralized approach is that optimal plans can be found (\cite{Yan2011}). For instance, Sharma et al. \cite{SharmaHonc2016} used a centralized exploration approach based on routing priority. The algorithm keeps track of the frontiers, assigning them to robots  whenever they fall into a trap situation.
 
 In contrast to centralized approaches, in a decentralized approach, the mobile robots are completely independent throughout the exploration process. Each mobile robot has its own local knowledge of the world and can decide its future actions by taking into account its current context and tasks, its own capacities and the capacities of the other mobile robots, through a negotiation process (\cite{Yan2013}). Moreover, it typically has better reliability, flexibility, adaptability and robustness (\cite{Zlot2002}). 
  
-There are several representative approaches from the both centralized and decentralized groups described in the following text. 
+There are several representative approaches from the both centralized and decentralized 2D exploration strategies described in the following text. 
 
 
 
@@ -59,22 +59,39 @@ t_{CU} = \argmax_{a \in F} B_{CU}(a).
 Similar to the work proposed by Simmons, Burgard \cite{Burgard2000} introduced some coordination by means of reducing a determined initial utility given to each frontier depending on the likelihood of being in the sensor range from other frontiers that have been assigned to other robots. The assignment of frontiers to robots is made sequentially using a cost-utility approach with the length of the minimum path as cost. It is assumed that robots know each others relative positions. The algorithm determines optimal target points for each robot that increase the coverage by the maximum amount at that time period. Moreover, Burgard in \cite{Burgard2005} suggested that the assignment of frontiers to robots could be optimized using the Hungarian method \cite{Kuhn1955} instead of the sequential assignment.
 
 Another example of cost-utility model is given in \cite{Umari2017}, where a frontier detection method is based on Rapidly Exploring Random Trees (RRTs). Umari defined revenue from a frontier point as a combination of an information gain and navigation cost. 
+Bhattacharya et al. \cite{Bhattacharya2013}, \cite{BhattacharyaGhrist2013} focused on the use of cost functions related to information theory, casting the exploration problem as a minimization of map entropy. Authors combined this approach with a grid-based map decomposition with an entropy minimization which results in complete coverage of a known map and full exploration if the scenario is unknown. 
 
-
-\subsection{Market-Based Coordinated Approach}
+\subsection{Market-Based Approach}
 
 The general concept of the market-based approaches includes independence of robots in terms of planning, and the ability of robots to take team resources into account.
 Relatively close to Burgard's approach in \cite{Burgard2000}, Zlot \cite{Zlot2002} uses a market architecture for the multi-robot mapping and exploration problem that aims to minimize an overall exploration time. In market-based coordinated approach each robot contains a list of goal points and profits associated with (\ref{equation:cost-utility}). Each robot selects the most profitable target as destination and when after reaching a current goal point, a robot initiates an auction. For each point in auction, each robot makes a bid with its current profit aiming to minimize own travel distance and maximize new area information.
 
-It is shown in \cite{Dias2003} when different team sizes are included, a market method has an advantage over a centralized approach in terms of traveled distance. Authors in \cite{Zlot2002} 
+It is shown in \cite{Dias2003} when different team sizes are included, a market method has an advantage over a centralized approach in terms of traveled distance. 
 
 Michael et al. \cite{Michael2008} proposed a marked-based coordination protocols where robots are able to bid for task assignment with the assumption that every robot has knowledge of the maximum number of robots that any given task can accommodate. Each auction is performed among neighboring groups of robots and requires only local communication.
 
+Sheng et al. \cite{Sheng2006} proposed an algorithm based on a distributed bidding model to coordinate the movement of multiple robots with limited communication range. The bidding algorithm takes into consideration distances between robots and a map synchronization mechanism reduces the exchanged data volume when robot subnetworks merge.
+
 \subsection{Decentralized Coordinated Approach}
 
-Exploration strategies include algorithms for assigning robots to target points for environment exploration. Such algorithms can be grouped into centralized and decentralized algorithms. In the  centralized approach, each mobile robot receives tasks from a single central \emph{leader} which runs the overall planning algorithm, and afterwards the mobile robot sends its info back to the leader. Centralized assignment may be less practical due to communication limits \cite{Dias2000}, robustness issues \cite{Dias2006}, or time required for algorithm execution and scalability \cite{Julia2012}. An advantage of centralized approach is that optimal plans can be found in\cite{Yan2011}. 
+Pereira et al. \cite{Pereira2015} proposed a new exploration and mapping strategy, which relies on individual decision rules and communication of topological maps to achieve efficient and fast mapping. In this distributed strategy each robot broadcasts a graph representing the topological map, which can be transmitted to robots that are not within the communication range (through other robots in a system). 
 
-In contrast to centralized approaches, in a decentralized approach, the mobile robots are completely independent throughout the exploration process. Each mobile robot has its own local knowledge of the world and can decide its future actions by taking into account its current context and tasks, its own capacities and the capacities of the other mobile robots, through a negotiation process (\cite{Yan2013}). Moreover, it typically has better reliability, flexibility, adaptability and robustness (\cite{Zlot2002}). 
+Decentralized coordinated approach described in \cite{Colares2016} showed how exploration efficiency can be greatly improved. Authors presented a decentralized approach for multi-robot exploration that leverages the classical frontier based methods. The strategy took into consideration a utility function (the information gain) and the distance costs of frontiers. In that manner, robots are able to coordinate themselves and avoid the exploration of redundant areas by exchanging information and merging maps.
+
+Lopez-Perez et al. \cite{LopezPerez2018} proposed a new method to explore unknown areas by using a scene partitioning scheme and assigning weights to the frontiers between explored and unknown areas. Authors presented a distributed algorithm, which reduces the number of communications between robots as well as the time needed to explore unknown regions and the distance traveled by each robot. Algorithm implemented by Benkrid and Achour \cite{Benkrid2017} also assigns weights to frontier cells, but, on the oher hand, depends on the energy of the battery of each robot.
+
+Another interesting approach is proposed by Faigl et al. \cite{Faigl2015} where a goal assignment is solved as task-allocation problem, where goal locations are repeatedly determined during the exploration. 
+
+% In the reviewed works,
+%the authors mainly focused on improving the selection of the
+%best next action for the exploration. This selection results in
+%a reduction in the distance traveled by the robots and shorter
+%exploration time. The next best action could be the choice of
+%the best frontier or the best zone. Also, the selection could be
+%performed using a function to evaluate the environment such
+%the map entropy or potential fields. In addition to the selection
+%of the best next move, the communication among the robots
+%has a critical role in the exploration.
 
 Our approach is a hybrid one - the robots can independently decide towards which target point to navigate using an optimization procedure, while having common knowledge of all target frontier points and sharing information on their position and current goals.  our approach is hybrid and uses slightly different objective functions for frontier points assignment, which are a combination of frontier point cost, utility of reaching the target point and \textit{frontier occupancy function}. We also cluster frontier points to get a problem of manageable size and thus enable application of known optimization algorithms. 
 Our approach is hybrid in a manner that target point assignment process and navigation are fully decentralized and event-based, that is, each robot team member makes an individual decision on the next target point each time it reaches the previous one. On the other side, SLAM extended with frontier detection and filter module are a centralized part of the exploration and mapping process.
