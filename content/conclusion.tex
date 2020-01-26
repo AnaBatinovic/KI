@@ -1,1 +1,26 @@
-\section{Conclusion} \label{sec:conclusion}
+\section{Conclusion and future work} \label{sec:conclusion}
+
+In this paper, a modular approach to autonomous decentralized multi-robot exploration and mapping was presented. This approach is not only restricted to Google Cartographer SLAM and dense frontier detection, but may also be applied to different multi-robot systems. This strategy has resulted in improved behaviour in terms of exploration time compared to a state-of-the-art strategy in terms of exploration time. 
+
+Even though the goals of this paper were shown to be achieved, the algorithm is open towards improving. Future research should consider decentralized map creating. Also, a significant improvement to this strategy would be a simpler simulator, that would allow for simulation of more robots.
+
+Another research direction can be an extension to the algorithm to cope with a limited communication range of the mobile robots. Future work should also consider a multi-robot system which uses a (not fully) connected communication graph. Finally, we would like to take into consideration scenarios in which the robots may fail as well as time-varying environment scenarios.
+
+The survey presents two chapters covering important tasks
+for multi-robot systems. Including motion planning and area
+exploration should provide a wide insight into the current
+leading edge. This work serves as a stepping stone for new
+research in path planning or exploration algorithms.
+The unsolved problems in motion planning, but also in the
+field of exploration, present huge opportunity for research.
+From the control perspective it must be mentioned that many
+authors focus solely on planning paths, while the execution
+of the given paths is disregarded. In that regard, adding a
+sophisticated control algorithm to further improve trajectory
+execution. The first step would be to use the framework based
+in [55]. As the work focuses on a single mobile robot, a
+full extension for multiple robots should be developed. As
+the presented navigation function is continuous even using
+an extension of the potential field theory as an repulsion
+force between robots nearing collision or deadlock is being
+evaluated

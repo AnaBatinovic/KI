@@ -7,7 +7,6 @@ In contrast to centralized approaches, in a decentralized approach, the mobile r
 There are several representative approaches from the both centralized and decentralized 2D exploration strategies described in the following text. 
 
 
-
 \subsection{Nearest Frontier Approach} 
 
 \begin{figure}[t!]
@@ -16,7 +15,15 @@ There are several representative approaches from the both centralized and decent
 	\caption {The environment is represented by a 2D map, with an occupancy grid that divides the map into cells: white cells describe free while grey cells unknown space. Black cells define occupied space (obstacles). Frontiers (red) and filtered frontiers (green).}
 	\label{fig:environment}
 \end{figure}
-An unexplored area is usually represented using an occupancy grid map introduced by \cite{Moravec}. While a robot moves, an occupancy likelihood for each cell of the grid is updated with the information of sensors. Depending on this occupancy likelihood, cells can be classified as free, occupied or unknown (Fig. \ref{fig:environment}). Using an occupancy grid a mobile robot can reach an unexplored zone navigating to the frontier cells that separate the free cells from the unknown cells known as \textit{frontiers} \cite{Yamauchi1997}. Yamauchi's technique consists in selecting the shortest path to the nearest frontier. In this way, the target cell selected by this technique $t_{NF}$ is:
+An unexplored area is usually represented using an occupancy grid map introduced by \cite{Moravec}. While a robot moves, an occupancy likelihood for each cell of the grid is updated with the information of sensors. Depending on this occupancy likelihood, cells can be classified as free, occupied or unknown (Fig. \ref{fig:environment}). Using an occupancy grid a mobile robot can reach an unexplored zone navigating to the frontier cells that separate the free cells from the unknown cells known as \textit{frontiers} \cite{Yamauchi1997}. A general frontier exploration diagram is shown in Fig. \ref{fig:flow_diagram}.
+
+\begin{figure}[t!]
+	\centering\includegraphics[width=0.85\columnwidth]{./pictures/flow_diagram.pdf}
+	\caption{Flow diagram for the frontier exploration strategies. In case a robot does not have a goal point, goal is computed, assigned, a path to the assigned goal is obtained and a trajectory executed.}
+	\label{fig:flow_diagram}
+\end{figure}
+
+Yamauchi's technique consists in selecting the shortest path to the nearest frontier. In this way, the target cell selected by this technique $t_{NF}$ is:
 
 \begin{equation}
 t_{NF} = \argmin_{a \in F} L(a), 
@@ -82,24 +89,17 @@ Lopez-Perez et al. \cite{LopezPerez2018} proposed a new method to explore unknow
 
 Another interesting approach is proposed by Faigl et al. \cite{Faigl2015} where a goal assignment is solved as task-allocation problem, where goal locations are repeatedly determined during the exploration. 
 
-% In the reviewed works,
-%the authors mainly focused on improving the selection of the
-%best next action for the exploration. This selection results in
-%a reduction in the distance traveled by the robots and shorter
-%exploration time. The next best action could be the choice of
-%the best frontier or the best zone. Also, the selection could be
-%performed using a function to evaluate the environment such
-%the map entropy or potential fields. In addition to the selection
-%of the best next move, the communication among the robots
-%has a critical role in the exploration.
-
-Our approach is a hybrid one - the robots can independently decide towards which target point to navigate using an optimization procedure, while having common knowledge of all target frontier points and sharing information on their position and current goals.  our approach is hybrid and uses slightly different objective functions for frontier points assignment, which are a combination of frontier point cost, utility of reaching the target point and \textit{frontier occupancy function}. We also cluster frontier points to get a problem of manageable size and thus enable application of known optimization algorithms. 
+In the described approaches, the main focus is improving the next action in order to explore an unknown area as fast as possible. Authors aimed to reduce a distance traveled by the robots as well as information shared between robots. This work motivated us to implement decentralized strategy for autonomous multi-robot frontier exploration and mapping of an unknown area. In our approach a robot team simultaneously explores the environment, discovers frontier points and shares information in order to become dispersed throughout the environment. During the exploration, information exchanged between the robots is limited to data containing robot positions and current robot target points. The main goal of the approach is to allocate the mobile robots to target frontier points in a way which minimizes the overall exploration time. Moreover, a robot team at the same time creates a common map of the environment. Our approach is a hybrid one - the robots can independently decide towards which target point to navigate using an optimization procedure, while having common knowledge of all target frontier points and sharing information on their position and current goals.  our approach is hybrid and uses slightly different objective functions for frontier points assignment, which are a combination of frontier point cost, utility of reaching the target point and \textit{frontier occupancy function}. We also cluster frontier points to get a problem of manageable size and thus enable application of known optimization algorithms. 
 Our approach is hybrid in a manner that target point assignment process and navigation are fully decentralized and event-based, that is, each robot team member makes an individual decision on the next target point each time it reaches the previous one. On the other side, SLAM extended with frontier detection and filter module are a centralized part of the exploration and mapping process.
 
-Overview of the system is given in Fig. \ref{fig:exploration-strategy}. The system consists of a centralized part (Simultaneous Localization and Mapping (SLAM), frontier detection and frontier points filter), which runs on a dedicated computer and a decentralized part (Exploration strategy and navigation), which runs on each robot. In the following text each part is described separately.
+Overview of the system is given in Fig. \ref{fig:exploration-strategy}. The system consists of a centralized part (Simultaneous Localization and Mapping (SLAM), frontier detection and frontier points filter), which runs on a dedicated computer and a decentralized part (Exploration strategy and navigation), which runs on each robot. 
 
 \begin{figure}[t!]
 	\centering\includegraphics[width=1.0\columnwidth]{./pictures/diagram_exploration.pdf}
 	\caption{Overall schematic diagram of the decentralized exploration and mapping process for $n$ mobile robots in the simulator. Google Cartographer SLAM and filter module (highlighted in red) generate filtered frontier points that are (currently) the centralized part of exploration and mapping process. The exploration strategy, path planning and navigation module (highlighted green) are decentralized parts that generate $n$ outputs and create a common map.}
 	\label{fig:exploration-strategy}
 \end{figure}
+
+
+
+
