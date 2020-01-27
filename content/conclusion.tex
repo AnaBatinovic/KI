@@ -1,26 +1,35 @@
 \section{Conclusion and future work} \label{sec:conclusion}
 
-In this paper, a modular approach to autonomous decentralized multi-robot exploration and mapping was presented. This approach is not only restricted to Google Cartographer SLAM and dense frontier detection, but may also be applied to different multi-robot systems. This strategy has resulted in improved behaviour in terms of exploration time compared to a state-of-the-art strategy in terms of exploration time. 
+The problem of autonomous environment exploration is complex, because it includes the control of a robot, an environment scanning with a 3D sensor, creating a volumetric consistent scene in a common coordinate system from multiple views, the computation of next view points to provide efficiently full coverage of the scene, an elimination of an 
+occlusion under the constraint of minimizing the totalpath length between these points. 
 
-Even though the goals of this paper were shown to be achieved, the algorithm is open towards improving. Future research should consider decentralized map creating. Also, a significant improvement to this strategy would be a simpler simulator, that would allow for simulation of more robots.
+In this paper, a brief overview of the exploration strategies is given. 
+A modular approach to autonomous decentralized multi-robot exploration and mapping was presented. Even though the strategy achieved our expectations, the algorithm is open towards improving. Future research should consider decentralized map creating. Also, a significant improvement to this strategy would be a simpler simulator, that would allow for simulation of more robots.
 
-Another research direction can be an extension to the algorithm to cope with a limited communication range of the mobile robots. Future work should also consider a multi-robot system which uses a (not fully) connected communication graph. Finally, we would like to take into consideration scenarios in which the robots may fail as well as time-varying environment scenarios.
+Another research direction can be an extension to the 3D space including multi aerial vehicles (MAVs).  algorithm to cope with a limited communication range of the mobile robots. Future work should also consider a multi-robot system which uses a (not fully) connected communication graph. Finally, we would like to take into consideration scenarios in which the robots may fail as well as time-varying environment scenarios.
 
-The survey presents two chapters covering important tasks
-for multi-robot systems. Including motion planning and area
-exploration should provide a wide insight into the current
-leading edge. This work serves as a stepping stone for new
+Autonomous area exploration has become a salient research
+area in the field of robotics due to its various number of
+applications. To handle the real world scenarios, the system
+should be able to work in 3D environments which can be either
+discovered or undiscovered previously. This research paper
+presents a solution to autonomously explore 3D environments
+without requiring an initial map or goal point. It builds a map
+of the discovered area while exploring and extracts details of
+the map like obstacles, planar surfaces and inclined surfaces.
+Considering the relative inclination of surfaces, traversability
+decisions are made by taking the specifications of the robot
+to concern. The developed system has been successfully . Octomap itself is able to handle
+dynamic environments by updating the map which makes the
+algorithm works well in dynamic environment as the point
+cloud is extracted from it.
+
+T
+
+
+T This work serves as a stepping stone for new
 research in path planning or exploration algorithms.
 The unsolved problems in motion planning, but also in the
 field of exploration, present huge opportunity for research.
-From the control perspective it must be mentioned that many
-authors focus solely on planning paths, while the execution
-of the given paths is disregarded. In that regard, adding a
-sophisticated control algorithm to further improve trajectory
-execution. The first step would be to use the framework based
-in [55]. As the work focuses on a single mobile robot, a
-full extension for multiple robots should be developed. As
-the presented navigation function is continuous even using
-an extension of the potential field theory as an repulsion
-force between robots nearing collision or deadlock is being
-evaluated
+ As the work focuses on a single mobile robot, a
+full extension for multiple robots should be developed.

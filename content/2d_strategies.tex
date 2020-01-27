@@ -1,21 +1,15 @@
 \section{2d exploration strategies}
 
-Exploration algorithms can be grouped into centralized, distributed and decentralized. In the  centralized approach, each mobile robot receives tasks from a single central \emph{leader} which runs the overall planning algorithm, and afterwards the mobile robot sends its info back to the leader. Centralized assignment may be less practical due to communication limits (\cite{Dias2000}), robustness issues (\cite{Dias2006}), or time required for algorithm execution and scalability (\cite{Julia2012}). An advantage of centralized approach is that optimal plans can be found (\cite{Yan2011}). For instance, Sharma et al. \cite{SharmaHonc2016} used a centralized exploration approach based on routing priority. The algorithm keeps track of the frontiers, assigning them to robots  whenever they fall into a trap situation.
+Exploration algorithms can be grouped into centralized and decentralized. In the  centralized approach, each robot receives tasks from a single central \emph{leader} which runs the overall planning algorithm, and afterwards the robot sends its info back to the leader. Centralized assignment may be less practical due to communication limits (\cite{Dias2000}), robustness issues (\cite{Dias2006}), or time required for algorithm execution and scalability (\cite{Julia2012}). An advantage of centralized approach is that optimal plans can be found (\cite{Yan2011}). For instance, Sharma et al. \cite{SharmaHonc2016} used a centralized exploration approach based on routing priority. The algorithm keeps track of the frontiers, assigning them to robots  whenever they fall into a trap situation.
 
-In contrast to centralized approaches, in a decentralized approach, the mobile robots are completely independent throughout the exploration process. Each mobile robot has its own local knowledge of the world and can decide its future actions by taking into account its current context and tasks, its own capacities and the capacities of the other mobile robots, through a negotiation process (\cite{Yan2013}). Moreover, it typically has better reliability, flexibility, adaptability and robustness (\cite{Zlot2002}). 
+In contrast to centralized approaches, in a decentralized approach, the robots are completely independent throughout the exploration process. Each robot has its own local knowledge of the world and can decide its future actions by taking into account its current context and tasks, its own capacities and the capacities of the other robots, through a negotiation process (\cite{Yan2013}). Moreover, it typically has better reliability, flexibility, adaptability and robustness (\cite{Zlot2002}). 
  
 There are several representative approaches from the both centralized and decentralized 2D exploration strategies described in the following text. 
 
 
 \subsection{Nearest Frontier Approach} 
 
-\begin{figure}[t!]
-	\centering
-	\fbox{\includegraphics[width=1.0\columnwidth]{./pictures/rviz_environment.pdf}}
-	\caption {The environment is represented by a 2D map, with an occupancy grid that divides the map into cells: white cells describe free while grey cells unknown space. Black cells define occupied space (obstacles). Frontiers (red) and filtered frontiers (green).}
-	\label{fig:environment}
-\end{figure}
-An unexplored area is usually represented using an occupancy grid map introduced by \cite{Moravec}. While a robot moves, an occupancy likelihood for each cell of the grid is updated with the information of sensors. Depending on this occupancy likelihood, cells can be classified as free, occupied or unknown (Fig. \ref{fig:environment}). Using an occupancy grid a mobile robot can reach an unexplored zone navigating to the frontier cells that separate the free cells from the unknown cells known as \textit{frontiers} \cite{Yamauchi1997}. A general frontier exploration diagram is shown in Fig. \ref{fig:flow_diagram}.
+An unexplored area is usually represented using an occupancy grid map introduced by \cite{Moravec}. While a robot moves, an occupancy likelihood for each cell of the grid is updated with the information of sensors. Depending on this occupancy likelihood, cells can be classified as free, occupied or unknown (Fig. \ref{fig:environment}). Using an occupancy grid a robot can reach an unexplored zone navigating to the frontier cells that separate the free cells from the unknown cells known as \textit{frontiers} \cite{Yamauchi1997}. A general frontier exploration diagram is shown in Fig. \ref{fig:flow_diagram}.
 
 \begin{figure}[t!]
 	\centering\includegraphics[width=0.85\columnwidth]{./pictures/flow_diagram.pdf}
@@ -30,14 +24,14 @@ t_{NF} = \argmin_{a \in F} L(a),
 \label{equation:t-nf}
 \end{equation}
 
-where $L(a)$ represents the length of the shortest path to reach the cell $a$ ($a_{i}$, $a_{j}$) and $F$ the subset of the frontier cells \cite{Julia2012}. As it can be noticed, (\ref{equation:t-nf}) only takes into account the cost of reaching a frontier cell and does not provide any coordination mechanism. In case a single mobile robot system is extended to a multi-robot system, mobile robots may select the same frontier if they are situated in nearby positions. For instance, \cite{Yamauchi1998} extended his nearest frontier approach to multiple mobile robots using global maps built by each robot with the information provided by all robots. Since mobile robots share the acquired information, exploration is cooperative, but mobile robot movements are uncoordinated. When the robots are in close positions it is likely that they choose the same frontier to explore if no other coordination mechanisms are considered.
+where $L(a)$ represents the length of the shortest path to reach the cell $a$ ($a_{i}$, $a_{j}$) and $F$ the subset of the frontier cells \cite{Julia2012}. As it can be noticed, (\ref{equation:t-nf}) only takes into account the cost of reaching a frontier cell and does not provide any coordination mechanism. In case a single robot system is extended to a multi-robot system, robots may select the same frontier if they are situated in nearby positions. For instance, \cite{Yamauchi1998} extended his nearest frontier approach to multiple robots using global maps built by each robot with the information provided by all robots. Since robots share the acquired information, exploration is cooperative, but robot movements are uncoordinated. When the robots are in close positions it is likely that they choose the same frontier to explore if no other coordination mechanisms are considered.
 
-Frontier exploration strategies are also extended to a multi-robot system in \cite{Simmons2000} and \cite{Burgard2005}. Simmons \cite{Simmons2000} used a semi-distributed model where a centralized module integrated local data from a team of mobile robots. The team used a probabilistic technique to build a global map in a coordinated fashion. Due to the problem of absolute positioning techniques in indoor environments, robots must estimate their local pose in an environment, leading to odometry errors. Simmons used probability calculations to estimate the local pose of each robot, and built a global map by joining each individual robots local map. 
+Frontier exploration strategies are also extended to a multi-robot system in \cite{Simmons2000} and \cite{Burgard2005}. Simmons \cite{Simmons2000} used a semi-distributed model where a centralized module integrated local data from a team of robots. The team used a probabilistic technique to build a global map in a coordinated fashion. Due to the problem of absolute positioning techniques in indoor environments, robots must estimate their local pose in an environment, leading to odometry errors. Simmons used probability calculations to estimate the local pose of each robot, and built a global map by joining each individual robots local map. 
 While Simmons \cite{Simmons2000} implements coordination between robots by sharing of map information and reducing the utility of frontier points in the vicinity of an allotted point, Burgard \cite{Burgard2005} came up with an elegant bidding process. 
 
 A dense frontier points detection method implemented by Orsulic (\cite{Orsulic2019}) is an extension to Google Cartographer (\cite{Hess2016}) that has achieved good results in terms of wall-time per frontier update, which greatly speeds up exploration process. Orsulic used nearest frontier approach in order to explore an area. 
 
-Rekeleitis \cite{Rekeleitis2000} covered terrains with multiple robots where at least one robot was stationary and posed as an observer. In \cite{Fox2006} a decision theoretic approach to multi-robot exploration was presented where the main problem was to decide whether a mobile robot should explore the terrain or to verify the hypothesis of other robots whose states are not mapped into a common reference frame. The nearest unexplored region technique is also used by Wullschleger \cite{Wullschleger99}, Santosh \cite{Santosh2008}, Murphy and Newman \cite{Murphy2008}, to name a few more.
+Rekeleitis \cite{Rekeleitis2000} covered terrains with multiple robots where at least one robot was stationary and posed as an observer. In \cite{Fox2006} a decision theoretic approach to multi-robot exploration was presented where the main problem was to decide whether a robot should explore the terrain or to verify the hypothesis of other robots whose states are not mapped into a common reference frame. The nearest unexplored region technique is also used by Wullschleger \cite{Wullschleger99}, Santosh \cite{Santosh2008}, Murphy and Newman \cite{Murphy2008}, to name a few more.
 
 
 \subsection{Cost-Utility Approach}
@@ -89,17 +83,46 @@ Lopez-Perez et al. \cite{LopezPerez2018} proposed a new method to explore unknow
 
 Another interesting approach is proposed by Faigl et al. \cite{Faigl2015} where a goal assignment is solved as task-allocation problem, where goal locations are repeatedly determined during the exploration. 
 
-In the described approaches, the main focus is improving the next action in order to explore an unknown area as fast as possible. Authors aimed to reduce a distance traveled by the robots as well as information shared between robots. This work motivated us to implement decentralized strategy for autonomous multi-robot frontier exploration and mapping of an unknown area. In our approach a robot team simultaneously explores the environment, discovers frontier points and shares information in order to become dispersed throughout the environment. During the exploration, information exchanged between the robots is limited to data containing robot positions and current robot target points. The main goal of the approach is to allocate the mobile robots to target frontier points in a way which minimizes the overall exploration time. Moreover, a robot team at the same time creates a common map of the environment. Our approach is a hybrid one - the robots can independently decide towards which target point to navigate using an optimization procedure, while having common knowledge of all target frontier points and sharing information on their position and current goals.  our approach is hybrid and uses slightly different objective functions for frontier points assignment, which are a combination of frontier point cost, utility of reaching the target point and \textit{frontier occupancy function}. We also cluster frontier points to get a problem of manageable size and thus enable application of known optimization algorithms. 
+In the described approaches, the main focus is improving the next action in order to explore an unknown area as fast as possible. Authors aimed to reduce a distance traveled by the robots as well as information shared between robots. This work motivated us to implement decentralized strategy for autonomous multi-robot frontier exploration and mapping of an unknown area. 
+
+Overview of our system is given in Fig. \ref{fig:exploration-strategy}. The system consists of a centralized part (Simultaneous Localization and Mapping (SLAM), frontier detection and frontier points filter), which runs on a dedicated computer and a decentralized part (Exploration strategy and navigation), which runs on each robot. 
+
+In our approach a robot team simultaneously explores the environment, discovers frontier points and shares information in order to become dispersed throughout the environment. During the exploration, information exchanged between the robots is limited to data containing robot positions and current robot target points. The main goal of the approach is to allocate the robots to target frontier points in a way which minimizes the overall exploration time. Moreover, a robot team at the same time creates a common map of the environment. 
+
+Our approach is a hybrid one - the robots can independently decide towards which target point to navigate using an optimization procedure, while having common knowledge of all target frontier points and sharing information on their position and current goals. We use slightly different objective functions for frontier points assignment called \textit{weight function}, which are a combination of frontier point cost, utility of reaching the target point and \textit{frontier occupancy function}. We also cluster frontier points to get a problem of manageable size and thus enable application of known optimization algorithms. 
 Our approach is hybrid in a manner that target point assignment process and navigation are fully decentralized and event-based, that is, each robot team member makes an individual decision on the next target point each time it reaches the previous one. On the other side, SLAM extended with frontier detection and filter module are a centralized part of the exploration and mapping process.
 
-Overview of the system is given in Fig. \ref{fig:exploration-strategy}. The system consists of a centralized part (Simultaneous Localization and Mapping (SLAM), frontier detection and frontier points filter), which runs on a dedicated computer and a decentralized part (Exploration strategy and navigation), which runs on each robot. 
 
 \begin{figure}[t!]
 	\centering\includegraphics[width=1.0\columnwidth]{./pictures/diagram_exploration.pdf}
-	\caption{Overall schematic diagram of the decentralized exploration and mapping process for $n$ mobile robots in the simulator. Google Cartographer SLAM and filter module (highlighted in red) generate filtered frontier points that are (currently) the centralized part of exploration and mapping process. The exploration strategy, path planning and navigation module (highlighted green) are decentralized parts that generate $n$ outputs and create a common map.}
+	\caption{Overall schematic diagram of the decentralized exploration and mapping process for $n$ robots in the simulator. Google Cartographer SLAM and filter module (highlighted in red) generate filtered frontier points that are (currently) the centralized part of exploration and mapping process. The exploration strategy, path planning and navigation module (highlighted green) are decentralized parts that generate $n$ outputs and create a common map.}
 	\label{fig:exploration-strategy}
 \end{figure}
 
 
+\begin{algorithm}[b!]
+	\While{Unexplored}{
+		\If{Request}{
+			Send position and current target point to the other mobile robots\;
+		}
+		\If{Robot has reached the previous target point}{
+			Request positions and current target points from other mobile robots\;
+			Calculate weight function\;
+			Hungarian algorithm\;
+			\textbf{return} Robot is assigned to frontier point\;
+		}
+	}
+	\label{algorithm1}
+	\caption{Decentralized strategy for multi-robot exploration.}
+\end{algorithm}
+
+
+Our decentralized strategy executes during the robot motion and there are steps for each robot to be executed (\textbf{Algorithm 1}). All frontier points are visible to all robots.
+When a robot is assigned to a frontier point according to line 8 in \textbf{Algorithm 1}, the robot starts to follow the planned path and navigates to the target frontier point. At the moment when the robot reaches the target point (mission is over), a request is sent to other robots to get their positions and current target points. Calculated weight function are an input to Hungarian algorithm. 
+The Hungarian algorithm is described in \cite{Kuhn1955} and tested in \cite{Kulich2015}. Initially, the Hungarian algorithm assumes that the number of frontier points is the same as the number of robots. Due to the fact that there are usually fewer robots than frontier points, virtual robots are added and then skipped during the process of assignment and exploration. 
+
+The described process executes until the whole environment is explored and a complete  map of the environment is generated.
+
+This approach is not only restricted to Google Cartographer SLAM and dense frontier detection, but may also be applied to different multi-robot systems. This strategy has resulted in improved behaviour in terms of exploration time compared to a state-of-the-art strategy in terms of exploration time. 
 
 
