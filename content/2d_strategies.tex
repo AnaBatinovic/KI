@@ -24,7 +24,7 @@ t_{NF} = \argmin_{a \in F} L(a),
 \label{equation:t-nf}
 \end{equation}
 
-where $L(a)$ represents the length of the shortest path to reach the cell $a$ ($a_{i}$, $a_{j}$) and $F$ the subset of the frontier cells \cite{Julia2012}. As it can be noticed, (\ref{equation:t-nf}) only takes into account the cost of reaching a frontier cell and does not provide any coordination mechanism. In case a single robot system is extended to a multi-robot system, robots may select the same frontier if they are situated in nearby positions. For instance, \cite{Yamauchi1998} extended his nearest frontier approach to multiple robots using global maps built by each robot with the information provided by all robots. Since robots share the acquired information, exploration is cooperative, but robot movements are uncoordinated. When the robots are in close positions it is likely that they choose the same frontier to explore if no other coordination mechanisms are considered.
+where $L(a)$ represents the length of the shortest path to reach the cell $a$ ($a_{i}$, $a_{j}$) and $F$ the subset of the frontier cells \cite{Julia2012}. As it can be noticed, (\ref{equation:t-nf}) takes into account the cost of reaching a frontier cell and does not provide any coordination mechanism. In case a single robot system is extended to a multi-robot system, robots may select the same frontier if they are situated in nearby positions. For instance, \cite{Yamauchi1998} extended his nearest frontier approach to multiple robots using global maps built by each robot with the information provided by all robots. Since robots share the acquired information, exploration is cooperative, but robot movements are uncoordinated. When the robots are in close positions it is likely that they choose the same frontier to explore if no other coordination mechanisms are considered.
 
 Frontier exploration strategies are also extended to a multi-robot system in \cite{Simmons2000} and \cite{Burgard2005}. Simmons \cite{Simmons2000} used a semi-distributed model where a centralized module integrated local data from a team of robots. The team used a probabilistic technique to build a global map in a coordinated fashion. Due to the problem of absolute positioning techniques in indoor environments, robots must estimate their local pose in an environment, leading to odometry errors. Simmons used probability calculations to estimate the local pose of each robot, and built a global map by joining each individual robots local map. 
 While Simmons \cite{Simmons2000} implements coordination between robots by sharing of map information and reducing the utility of frontier points in the vicinity of an allotted point, Burgard \cite{Burgard2005} came up with an elegant bidding process. 
@@ -36,13 +36,13 @@ Rekeleitis \cite{Rekeleitis2000} covered terrains with multiple robots where at 
 
 \subsection{Cost-Utility Approach}
 
-Generally, in a cost-utility approach a goal point maximizes the benefit between cost and utility. The utility is measured in terms of the expectation of the information incorporated to the occupancy map from the position of the goal point. An example of cost-utility approach was presented by González-Baños and Latombe \cite{GonzlezBaos2002}. Frontier cells are designated as candidate destinations and the benefit $B_{CU}(a)$ to reach a candidate cell a is evaluated according to the following expression \cite{Julia2012}:
+Generally, in a cost-utility approach a goal point maximizes the benefit between cost and utility. The utility is measured in terms of the expectation of the information incorporated to the occupancy map from the position of the goal point. An example of cost-utility approach was presented by González-Baños and Latombe \cite{GonzlezBaos2002}. Frontier cells are designated as candidate destinations and the benefit $B_{CU}(a)$ to reach a candidate cell a is evaluated according to the following expression:
 \begin{equation}
 B_{CU}(a) = U(a) - \lambda_{CU}C(a),
 \label{equation:cost-utility}
 \end{equation}
 
-where $U(a)$ is a utility function, $C(a)$ is a cost function and $\lambda$ is a constant that adjusts the relative importance between both factors. Utility and cost functions are expressions normalized in the range $\left[0, 1\right]$ that are calculated as follows:
+where $U(a)$ is a utility function, $C(a)$ is a cost function and $\lambda$ is a constant that adjusts the relative importance between both factors \cite{Julia2012}. Utility and cost functions are expressions normalized in the range $\left[0, 1\right]$ that are calculated as follows:
 \begin{equation}
 U(a) = \frac{U_{nex}(a, R_{s})}{\pi R_{s}^{2}},
 \end{equation}
@@ -51,7 +51,7 @@ C(a) = \frac{L(a)}{max_{b \in F}L(b)},
 \end{equation}
 
 where the function $U_{nex}(a. R_{s})$ is the result of counting the number of unexplored cells in the range of the sensor from cell $d$, being $R_{s}$ the maximum range of the sensor expressed in cell units.
-Then, the target cell $t_{CU}$ is chosen as the one that maximizes the utility-cost relation:
+Then, the target cell $t_{CU}$ is chosen as the one that maximizes the utility-cost relation \cite{Julia2012}:
 
 \begin{equation}
 t_{CU} = \argmax_{a \in F} B_{CU}(a).
@@ -59,7 +59,8 @@ t_{CU} = \argmax_{a \in F} B_{CU}(a).
 
 Similar to the work proposed by Simmons, Burgard \cite{Burgard2000} introduced some coordination by means of reducing a determined initial utility given to each frontier depending on the likelihood of being in the sensor range from other frontiers that have been assigned to other robots. The assignment of frontiers to robots is made sequentially using a cost-utility approach with the length of the minimum path as cost. It is assumed that robots know each others relative positions. The algorithm determines optimal target points for each robot that increase the coverage by the maximum amount at that time period. Moreover, Burgard in \cite{Burgard2005} suggested that the assignment of frontiers to robots could be optimized using the Hungarian method \cite{Kuhn1955} instead of the sequential assignment.
 
-Another example of cost-utility model is given in \cite{Umari2017}, where a frontier detection method is based on Rapidly Exploring Random Trees (RRTs). Umari defined revenue from a frontier point as a combination of an information gain and navigation cost. 
+Another example of cost-utility model is given in \cite{Umari2017}, where a frontier detection method is based on Rapidly Exploring Random Trees (RRTs). Umari defined revenue from a frontier point as a combination of an information gain and navigation cost.
+ 
 Bhattacharya et al. \cite{Bhattacharya2013}, \cite{BhattacharyaGhrist2013} focused on the use of cost functions related to information theory, casting the exploration problem as a minimization of map entropy. Authors combined this approach with a grid-based map decomposition with an entropy minimization which results in complete coverage of a known map and full exploration if the scenario is unknown. 
 
 \subsection{Market-Based Approach}
