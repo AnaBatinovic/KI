@@ -1,5 +1,4 @@
 \section{2d exploration strategies}
-
 Exploration algorithms can be grouped into centralized and decentralized. In the  centralized approach, each robot receives tasks from a single central \emph{leader} which runs the overall planning algorithm, and afterwards the robot sends its info back to the leader. Centralized assignment may be less practical due to communication limits (\cite{Dias2000}), robustness issues (\cite{Dias2006}), or time required for algorithm execution and scalability (\cite{Julia2012}). An advantage of centralized approach is that optimal plans can be found (\cite{Yan2011}). For instance, Sharma et al. \cite{SharmaHonc2016} used a centralized exploration approach based on routing priority. The algorithm keeps track of the frontiers, assigning them to robots  whenever they fall into a trap situation.
 
 In contrast to centralized approaches, in a decentralized approach, the robots are completely independent throughout the exploration process. Each robot has its own local knowledge of the world and can decide its future actions by taking into account its current context and tasks, its own capacities and the capacities of the other robots, through a negotiation process (\cite{Yan2013}). Moreover, it typically has better reliability, flexibility, adaptability and robustness (\cite{Zlot2002}). 
@@ -8,22 +7,17 @@ There are several representative approaches from the both centralized and decent
 
 
 \subsection{Nearest Frontier Approach} 
-
 An unexplored area is usually represented using an occupancy grid map introduced by \cite{Moravec}. While a robot moves, an occupancy likelihood for each cell of the grid is updated with the information of sensors. Depending on this occupancy likelihood, cells can be classified as free, occupied or unknown (Fig. \ref{fig:environment}). Using an occupancy grid a robot can reach an unexplored zone navigating to the frontier cells that separate the free cells from the unknown cells known as \textit{frontiers} \cite{Yamauchi1997}. A general frontier exploration diagram is shown in Fig. \ref{fig:flow_diagram}.
-
 \begin{figure}[t!]
 	\centering\includegraphics[width=0.85\columnwidth]{./pictures/flow_diagram.pdf}
 	\caption{Flow diagram for the frontier exploration strategies. In case a robot does not have a goal point, goal is computed, assigned, a path to the assigned goal is obtained and a trajectory executed.}
 	\label{fig:flow_diagram}
 \end{figure}
-
 Yamauchi's technique consists in selecting the shortest path to the nearest frontier. In this way, the target cell selected by this technique $t_{NF}$ is:
-
 \begin{equation}
 t_{NF} = \argmin_{a \in F} L(a), 
 \label{equation:t-nf}
 \end{equation}
-
 where $L(a)$ represents the length of the shortest path to reach the cell $a$ ($a_{i}$, $a_{j}$) and $F$ the subset of the frontier cells \cite{Julia2012}. As it can be noticed, (\ref{equation:t-nf}) takes into account the cost of reaching a frontier cell and does not provide any coordination mechanism. In case a single robot system is extended to a multi-robot system, robots may select the same frontier if they are situated in nearby positions. For instance, \cite{Yamauchi1998} extended his nearest frontier approach to multiple robots using global maps built by each robot with the information provided by all robots. Since robots share the acquired information, exploration is cooperative, but robot movements are uncoordinated. When the robots are in close positions it is likely that they choose the same frontier to explore if no other coordination mechanisms are considered.
 
 Frontier exploration strategies are also extended to a multi-robot system in \cite{Simmons2000} and \cite{Burgard2005}. Simmons \cite{Simmons2000} used a semi-distributed model where a centralized module integrated local data from a team of robots. The team used a probabilistic technique to build a global map in a coordinated fashion. Due to the problem of absolute positioning techniques in indoor environments, robots must estimate their local pose in an environment, leading to odometry errors. Simmons used probability calculations to estimate the local pose of each robot, and built a global map by joining each individual robots local map. 
@@ -35,13 +29,11 @@ Rekeleitis \cite{Rekeleitis2000} covered terrains with multiple robots where at 
 
 
 \subsection{Cost-Utility Approach}
-
 Generally, in a cost-utility approach a goal point maximizes the benefit between cost and utility. The utility is measured in terms of the expectation of the information incorporated to the occupancy map from the position of the goal point. An example of cost-utility approach was presented by González-Baños and Latombe \cite{GonzlezBaos2002}. Frontier cells are designated as candidate destinations and the benefit $B_{CU}(a)$ to reach a candidate cell a is evaluated according to the following expression:
 \begin{equation}
 B_{CU}(a) = U(a) - \lambda_{CU}C(a),
 \label{equation:cost-utility}
 \end{equation}
-
 where $U(a)$ is a utility function, $C(a)$ is a cost function and $\lambda$ is a constant that adjusts the relative importance between both factors \cite{Julia2012}. Utility and cost functions are expressions normalized in the range $\left[0, 1\right]$ that are calculated as follows:
 \begin{equation}
 U(a) = \frac{U_{nex}(a, R_{s})}{\pi R_{s}^{2}},
@@ -49,14 +41,11 @@ U(a) = \frac{U_{nex}(a, R_{s})}{\pi R_{s}^{2}},
 \begin{equation}
 C(a) = \frac{L(a)}{max_{b \in F}L(b)},
 \end{equation}
-
 where the function $U_{nex}(a. R_{s})$ is the result of counting the number of unexplored cells in the range of the sensor from cell $d$, being $R_{s}$ the maximum range of the sensor expressed in cell units.
 Then, the target cell $t_{CU}$ is chosen as the one that maximizes the utility-cost relation \cite{Julia2012}:
-
 \begin{equation}
 t_{CU} = \argmax_{a \in F} B_{CU}(a).
 \end{equation}
-
 Similar to the work proposed by Simmons, Burgard \cite{Burgard2000} introduced some coordination by means of reducing a determined initial utility given to each frontier depending on the likelihood of being in the sensor range from other frontiers that have been assigned to other robots. The assignment of frontiers to robots is made sequentially using a cost-utility approach with the length of the minimum path as cost. It is assumed that robots know each others relative positions. The algorithm determines optimal target points for each robot that increase the coverage by the maximum amount at that time period. Moreover, Burgard in \cite{Burgard2005} suggested that the assignment of frontiers to robots could be optimized using the Hungarian method \cite{Kuhn1955} instead of the sequential assignment.
 
 Another example of cost-utility model is given in \cite{Umari2017}, where a frontier detection method is based on Rapidly Exploring Random Trees (RRTs). Umari defined revenue from a frontier point as a combination of an information gain and navigation cost.
@@ -92,7 +81,7 @@ In our approach a robot team simultaneously explores the environment, discovers 
 
 Our approach is a hybrid one - the robots can independently decide towards which target point to navigate using an optimization procedure, while having common knowledge of all target frontier points and sharing information on their position and current goals. We use slightly different objective functions for frontier points assignment called \textit{weight function}, which are a combination of frontier point cost, utility of reaching the target point and \textit{frontier occupancy function}. We also cluster frontier points to get a problem of manageable size and thus enable application of known optimization algorithms. 
 Our approach is hybrid in a manner that target point assignment process and navigation are fully decentralized and event-based, that is, each robot team member makes an individual decision on the next target point each time it reaches the previous one. On the other side, SLAM extended with frontier detection and filter module are a centralized part of the exploration and mapping process.
-
+\tp{Slobodno stavi ovdje i neke rezultate tj. grafove}
 
 \begin{figure}[t!]
 	\centering\includegraphics[width=1.0\columnwidth]{./pictures/diagram_exploration.pdf}

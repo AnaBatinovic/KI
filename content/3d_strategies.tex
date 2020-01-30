@@ -14,7 +14,10 @@ Dornhege and Kleiner \cite{Dornhege2013} used a frontier based method extended t
 robot equipped with a 3D laser scanner. This strategy ensures an on-line room detection algorithm focused on the room-by-room exploration keeping the memory and computational
 requirements low.
 
-Priyasad et al. \cite{Priyasad2018} presented a point cloud based algorithm which can be used in a situation wherethe prior knowledge of the environment is highly inaccurate. The algorithm uses depth images to get a local map, which is expanded by searching for uncharted areas picking the next bestlocation to explore using a breadth first approach given a set ofconstraints. The proposed algorithm exploits the maps in the 3D
+Priyasad et al. \cite{Priyasad2018} presented a point cloud based algorithm which can be used in a situation where
+the prior knowledge of the environment is highly inaccurate. The algorithm uses depth images to get a local map, which is expanded by searching for uncharted areas picking the next best
+location to explore using a breadth first approach given a set of
+constraints. The proposed algorithm exploits the maps in the 3D
 space allowing the navigation system to perform effectively in uneven terrains. 
 
 Next-best-view approach in the process of building 3D model of a real object used without any a priori information about the environment was described in \cite{VasquezGomez2014}. The algorithm determines each view to reconstruct an arbitrary object. Furthermore, authors proposed a method to deal with the uncertainty in sensor positioning.
@@ -41,7 +44,10 @@ critical infrastructure autonomously using Micro Aerial Vehicles (MAV). In order
 
 Rocha et al. \cite{Rocha2005} dealt with 3D mapping by multi robots using cubic cells for information storage. Authors presented a technique which is used for frontier-based exploration. At the beginning of the exploration an initial map is given to the robot, the robots updates old map by new set information which calculate by measurement and shares their useful information with other robots. The process is repeated until whole area is explored and mapped.
 
-Wang et al. \cite{Wang2018} studied the problem of autonomous exploration in unknown indoor environments using mutual information to evaluate the information the robot would get at a certain location. Authors proposed asampling method that can get random sensing patches in free space. In order to to collect information with true values, each sensing patch is extended to informative locations. They combined it with GaussianMarkov Random Fields (GMRF) to model the distribution of mutual information in environment.  Authors also proposed a utility function that can balance the path cost and the information gain the robotwould collect.
+Wang et al. \cite{Wang2018} studied the problem of autonomous exploration in unknown indoor environments using mutual information to evaluate the information the robot would get at a certain location. Authors proposed a
+sampling method that can get random sensing patches in free space. In order to to collect information with true values, each sensing patch is extended to informative locations. They combined it with Gaussian
+Markov Random Fields (GMRF) to model the distribution of mutual information in environment.  Authors also proposed a utility function that can balance the path cost and the information gain the robot
+would collect.
 
 The 3D exploration problem using aerial vehicles within limited flight endurance was addressed by Wang et al. \cite{Wang2019}. Authors proposed an information potential field based method considering both the traveled cost and information-gain. The next-best-view point is chosen based on a multi-objective function which considers information of several candidate regions and the traveled path cost. The selected goal
 attracts the robot while known obstacles form the repulsive
@@ -57,5 +63,9 @@ force repel the robot.
 \end{figure}
 
 
-There are many algorithms to implement autonomous exploration as we described in the text above. Most of the algorithms are dependent on prior knowledge of the environment and apriori maps. Althoughthey are effective in some scenarios, these algorithms fail toperform when the environment has been subjected to changesthat might invalidate the prior map. There are also algorithms implemented to deal with single robot exploration and mapping. Motivated by mentioned facts, we studied the problem of autonomous building exploration with purpose of fire detection. 
-Besidesthe localization and mapping of an unknown area, laser data is used for an OctoMap generation (Fig. \ref{fig:3D_strategy}). Google Cartographer SLAM crates a map in which a robot gets a goal point and using OctoMap generate trajectory and execute it. Obstacle avoidance is also considered in our work.
+There are many algorithms to implement autonomous exploration as we described in the text above. Most of the algorithms are dependent on prior knowledge of the environment and apriori maps. Although
+they are effective in some scenarios, these algorithms fail to
+perform when the environment has been subjected to changes
+that might invalidate the prior map. There are also algorithms implemented to deal with single robot exploration and mapping. Motivated by mentioned facts, we studied the problem of autonomous building exploration with purpose of fire detection. 
+Besides
+the localization and mapping of an unknown area, laser data is used for an OctoMap generation (Fig. \ref{fig:3D_strategy}). Google Cartographer SLAM crates a map in which a robot gets a goal point and using OctoMap generate trajectory and execute it. Obstacle avoidance is also considered in our work.
