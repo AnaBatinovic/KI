@@ -1,8 +1,19 @@
 \section{3D exploration strategies}
 
+When robots autonomously navigate in a three-dimensional space, they need a model of the environment that defines regions which are safe to traverse. An approach in \cite{Wurm2012} models obstacles as well as free space. It discretizes the environment by dividing it into equally-sized cubic volumes called \textit{voxels}. The approach then estimates the probability of each voxel to be occupied and maintains data in a tree-based representation that allocates memory only for those parts of the model that carry information about the environment. 
+An octree is a tree-based data structure that represents the 3D space by recursively subdividing the corresponding volume into eight sub-volumes until a given minimum cube size is reached. The relation between the volumes and the tree is illustrated in Fig. \ref{fig:octomap1}.
+
+\begin{figure}[t!]
+	\centering
+	\includegraphics[width=1.0\columnwidth]{./pictures/octomap.png}	
+	\caption{Illustration of the octree data-structure. Left: Example of an octree storing free voxels (shaded white) and occupied voxels (black). Right: The corresponding tree representation \cite{Wurm2012}.}
+	\label{fig:octomap1}
+\end{figure}
+
+
 \tp{Nije sasvim jasno u ovim svim pristupima da li koriste single robot ili multi robot, treba to negdje napisati.}
 In contrast to 2D exploration and mapping strategies, mapping of large environments in 3D requires high memory and computational consumptions. 
-Different autonomous 3D exploration strategies were proposed \st{so} that {\color{red}apply} 2D exploration tools \st{are used}  to three dimensions. In \cite{Joho2007}, Joho et al. presented an exploration strategy that extends the known 2D exploration strategies into the 3D space. Mapping is done using multi-level surface maps while a cost function takes
+Different autonomous 3D exploration strategies were proposed that apply 2D exploration tools to three dimensions. In \cite{Joho2007}, Joho et al. presented an exploration strategy that extends the known 2D exploration strategies into the 3D space. Mapping is done using multi-level surface maps while a cost function takes
 into account an expected information gain and a travel cost. 
 Bachrach et
 al. \cite{Bachrach2009} presented a solution for enabling a quadrotor helicopter to autonomously explore and map unstructured indoor environments. Authors used a 2D frontier-based exploration algorithm and set a fixed altitude for the helicopter during exploration.  
@@ -35,7 +46,7 @@ exploration based on surface frontier voxels. The strategy focuses on seeking th
 Vutetakis in \cite{Vutetakis2019} proposed a novel strategy for inspecting
 critical infrastructure autonomously using Micro Aerial Vehicles (MAV). In order to facilitate autonomous inspection capabilities, this strategy addresses the problem of autonomous MAV exploration and coverage of an unknown structure to acquire the spatial information necessary for the development of a high-fidelity 3D model of the structure. Key to this problem is to not only cover the entire structure, but also to minimize accumulative data errors during the exploration through direct planning of loop closures. 
 
-Rocha et al. \cite{Rocha2005} dealt with 3D mapping by multiple robots using cubic cells for information storage. Authors presented a technique which is used for frontier-based exploration. At the beginning of the exploration an initial map is given to the robot, the robots update old map by new set of information \st{which calculate by measurement} {\color{red}obtained through sensing} and share their useful information with other robots. The process is repeated until the whole area is explored and mapped.
+Rocha et al. \cite{Rocha2005} dealt with 3D mapping by multiple robots using cubic cells for information storage. Authors presented a technique which is used for frontier-based exploration. At the beginning of the exploration an initial map is given to the robot, the robots update old map by new set of information obtained through sensing and share their useful information with other robots. The process is repeated until the whole area is explored and mapped.
 
 Wang et al. \cite{Wang2018} studied the problem of autonomous exploration in unknown indoor environments using mutual information to evaluate the information the robot would get at a certain location. Authors proposed a
 sampling method that can get random sensing patches in free space. In order to to collect information with true values, each sensing patch is extended to informative locations. They combined it with Gaussian
