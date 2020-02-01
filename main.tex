@@ -49,6 +49,8 @@
 \usepackage{dirtree}					% Simple display of directory tree
 \usepackage{hyperref}					% Managing cross-referencing
 
+\usepackage{soul}
+\usepackage{xcolor}
 
 \usepackage{lmodern}
 \usepackage{nccmath}
@@ -79,7 +81,7 @@
 \newcommand{\Aa}{\pazocal{A}}
 \newcommand{\Ta}{\pazocal{T}}
 \newcommand{\La}{\pazocal{L}}
-\newcommand{\tp}[1] {\todo[inline, color=green]{MK: #1}}
+\newcommand{\tp}[1] {\todo[inline, color=green]{TP: #1}}
 \newcommand{\Ja}{\pazocal{J}}
 
 \graphicspath{{./figures/}}
@@ -103,6 +105,7 @@
 \newcommand{\mb}[1]{\boldsymbol{#1}}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 
+
 \makeatother
 
 \begin{document}
@@ -115,12 +118,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-This paper proposes a short overview of multi-robot exploration strategies of an unknown environment. The main idea of the exploration strategy is an appropriate region selection as well as the minimization of a cost function involving the distance traveled by the robots, the time it takes for them to finish the exploration, and others. The paper focuses on multi-robot systems that could accomplish an unknown area exploration under required conditions.
-These strategies play an important role in 2D as well as in 3D spaces. Therefore, this paper presents a systematic survey on the existing literature on coordination and exploration in the both spaces. The paper describes our recent work in autonomous multi-robot exploration systems and mapping using decentralized approach.
-A brief conclusion and further research perspectives are given at the end of the paper. 
+This paper \st{proposes} {\color{red} gives} a short overview of multi-robot exploration strategies of an unknown environment. The main \st{idea} {\color{red}goal} of the exploration strategy is \st{an appropriate region selection as well as the minimization of} {\color{red} to select an appropriate region to be explored next by each robot while minimizing} a cost function \st{involving} {\color{red} which takes into account} the distance travelled by the robots, \st{the time it takes for them to finish the exploration} {\color{red}total exploration time}, and others. \st{This paper focuses on multi-robot systems that could accomplish an unknown area exploration under required conditions.}
+These strategies play an important role in 2D as well as in 3D spaces\st{. Therefore,} {\color{red}and} this paper presents a systematic survey on the existing literature on coordination and exploration in \st{the} both spaces.{ \color{red}Further}, the paper describes our recent work in autonomous multi-robot exploration systems and mapping using {\color{red}a} decentralized approach.
+A brief conclusion and further research perspectives {\color{red} in the described area} are given at the end of the paper. 
 
  
-\indexterms{Multi-Robot System, Target Point, Exploration, Mapping, Frontiers, OctoMap.}
+\indexterms{Multi-Robot System, \st{Target Point}, Exploration, Mapping, Frontiers, OctoMap.}
 
 \end{abstract}
 \input{content/introduction.tex}
