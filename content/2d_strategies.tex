@@ -16,7 +16,7 @@ The most popular representation for exploration is the occupancy grid map that d
 \end{figure}
 
 
-This paper focuses on frontier exploration algorithm introduced by Yamauchi \cite{Yamauchi1997}. A general exploration and mapping process is shown in Fig. \ref{fig:strategy_one_robot}. 
+This paper focuses on frontier exploration algorithm introduced by Yamauchi \cite{Yamauchi1997}. A general exploration and mapping process is shown in Fig. \ref{fig:strategy_one_robot}. Some papers deal only with exploration strategies, while others include localization and mapping problem in their work. Moreover, frontier detection and filtering problem combined with exploration is also interesting research direction.
 
 Exploration algorithms can be grouped into centralized and decentralized. In centralized approaches, each robot receives tasks from a single central \emph{leader}, which runs the overall planning algorithm, and afterwards the robot sends its info back to the leader. A centralized assignment may be less practical due to communication limits (\cite{Dias2000}), robustness issues (\cite{Dias2006}), or the time required for algorithm execution and scalability (\cite{Julia2012}). An advantage of centralized approaches is that optimal plans can be found (\cite{Yan2011}). For instance, Sharma et al. \cite{SharmaHonc2016} used a centralized exploration strategy based on routing priority. The algorithm keeps track of the frontiers, assigning them to robots whenever they got stuck in the environment.
 
