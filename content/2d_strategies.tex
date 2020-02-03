@@ -1,9 +1,7 @@
 \section{2d exploration strategies}
 
-Research in multi-robot localization, mapping and exploration processes can be described using familiar categories based on the use of landmarks \cite{Dedeoglu2000}, scan-matching \cite{Burgard2000}, and/or graphs \cite{Rekeleitis2000}, and
-which use either range sensors (such as sonar or laser) or vision
-sensors. When several robots explore an environment, there is a considerable overlap of the sensor measurements that leads to inefficiency. It is a great challenge for researches to overcome this source of inefficiency. 
-
+First step of any exploration strategy is to have an efficient and accurate solution for localization and mapping. This is usually done using either range sensors (such as sonar or laser) or vision sensors, and algorithms based on landmarks \cite{Dedeoglu2000}, scan-matching \cite{Burgard2000}, and/or graphs \cite{Rekeleitis2000}. 
+%In multi-robot systems, there is a considerable overlap of the sensor measurements that leads to inefficiency. It is a great challenge for researches to overcome this source of inefficiency. \tp{Ovo gore nije jasno}
 To explore an environment with a team of robots, most coordination approaches generate a set of possible exploration targets and assign robots to a subset of those targets. An
 exploration target is defined as a specific location in the environment and, in general, also includes the orientation of the robot or sensor. To explore a target, the robot approaches the specified position and takes a sensor measurement there. The method of generating exploration targets depends on the representation of the environment \cite{Wurm2012}. 
 The most popular representation for exploration is the occupancy grid map that discretizes the environment into a grid of map cells \cite{Moravec}. A binary Bayes filter is applied to estimate the occupancy of each cell. Each cell is initialized as unknown.  While a robot moves, an occupancy likelihood for each cell of the grid is updated with the information gathered by sensors. Depending on this occupancy likelihood, cells can be classified as free, occupied or unknown (Fig. \ref{fig:environment}).
@@ -11,16 +9,15 @@ The most popular representation for exploration is the occupancy grid map that d
 \begin{figure}[t!]
 	\centering
 	\fbox{\includegraphics[width=1.0\columnwidth]{./pictures/environment1.png}}
-	\caption {The environment is represented by a 2D map, with an occupancy grid that divides the map into cells: unknown cells are shown light blue, free cells are depicted in white and occupied cells (obstacles) in black. Left: Frontier cells (red) are determined at the boundary between free and unknown map cells. Right: Five exploration targets, visualized as red circles, are generated at frontiers. \cite{Wurm2012}}
+	\caption {The environment is represented by a 2D map, with an occupancy grid that divides the map into cells: unknown cells are shown light blue, free cells are depicted in white and occupied cells (obstacles) in black. Left: Frontier cells (red) are determined at the boundary between free and unknown map cells. Right: Five exploration targets, visualized as red circles, are generated at frontiers (Source \cite{Wurm2012}).}
 	\label{fig:environment}
 \end{figure}
 
-
-This paper focuses on frontier exploration algorithm introduced by Yamauchi \cite{Yamauchi1997}. A general exploration and mapping process is shown in Fig. \ref{fig:strategy_one_robot}. Some papers deal only with exploration strategies, while others include localization and mapping problem in their work. Moreover, frontier detection and filtering problem combined with exploration is also interesting research direction.
+This paper focuses on frontier-based exploration algorithms, introduced by Yamauchi \cite{Yamauchi1997}. A general exploration and mapping process is shown in Fig. \ref{fig:strategy_one_robot}. Some papers deal only with exploration strategies, while others include localization and mapping problem in their work. 
 
 Exploration algorithms can be grouped into centralized and decentralized. In centralized approaches, each robot receives tasks from a single central \emph{leader}, which runs the overall planning algorithm, and afterwards the robot sends its info back to the leader. A centralized assignment may be less practical due to communication limits (\cite{Dias2000}), robustness issues (\cite{Dias2006}), or the time required for algorithm execution and scalability (\cite{Julia2012}). An advantage of centralized approaches is that optimal plans can be found (\cite{Yan2011}). For instance, Sharma et al. \cite{SharmaHonc2016} used a centralized exploration strategy based on routing priority. The algorithm keeps track of the frontiers, assigning them to robots whenever they got stuck in the environment.
 
-In contrast to centralized approaches, in a decentralized approach, the robots are completely (or at least partially) independent throughout the exploration process. Each robot has its own local knowledge of the world and can decide its future actions by taking into account its current context and tasks, its own capacities and the capacities of the other robots (\cite{Yan2013}). Robot send and received information to/from other robots in its communication range. Moreover, it typically has better reliability, flexibility, adaptability and robustness (\cite{Zlot2002}). 
+In contrast to centralized approaches, in a decentralized approach, robots are completely (or at least partially) independent throughout the exploration process. Each robot has its own local knowledge of the world and can decide its future actions by taking into account its current context and tasks, its own capacities and the capacities of the other robots (\cite{Yan2013}). Robot sends and receives information to/from other robots in its communication range. This approach typically has better reliability, flexibility, adaptability and robustness (\cite{Zlot2002}). 
 
 \begin{figure}[t!]
 	\centering
@@ -32,17 +29,17 @@ In contrast to centralized approaches, in a decentralized approach, the robots a
 There are several representative approaches from both centralized and decentralized 2D exploration strategies described in the following text. 
 
 \subsection{Nearest Frontier Approach} 
-Using an occupancy grid, a robot can reach an unexplored zone navigating to the frontier cells that separate the free cells from the unknown cells known as \textit{frontiers} \cite{Yamauchi1997}. A general frontier exploration diagram is shown in Fig. \ref{fig:flow_diagram}.
+Using an occupancy grid, a robot can reach an unexplored zone by navigating to the frontier cells that separate the free cells from the unknown cells known as \textit{frontiers} \cite{Yamauchi1997}. A general frontier exploration diagram is shown in Fig. \ref{fig:flow_diagram}.
 
-Yamauchi's technique consists in selecting the shortest path to the nearest frontier. In this way, the target cell selected by this technique $t_{NF}$ is:
+Yamauchi's technique consists in selecting the shortest path to the nearest frontier. In this way, the target cell selected by this technique, $t_{NF}$, is:
 \begin{equation}
 t_{NF} = \argmin_{a \in F} L(a), 
 \label{equation:t-nf}
 \end{equation}
-where $L(a)$ represents the length of the shortest path to reach the cell $a$ ($a_{i}$, $a_{j}$) and $F$ the subset of the frontier cells \cite{Julia2012}. As it can be noticed, (\ref{equation:t-nf}) takes into account the cost of reaching a frontier cell and does not provide any coordination mechanism. In case a single robot system is extended to a multi-robot system, robots may select the same frontier if they are situated in nearby positions. For instance, \cite{Yamauchi1998} extended his nearest frontier approach to multiple robots using global maps built by each robot with the information provided by all robots. Since robots share the acquired information, exploration is cooperative, however, the selection of target points remains uncoordinated. When the robots are in the vicinity of each other it is likely that they are going to choose the same frontier point or region to explore if no other coordination mechanisms are considered.
+where $L(a)$ represents the length of the shortest path to reach the cell $a$ ($a_{i}$, $a_{j}$) and $F$ the subset of the frontier cells \cite{Julia2012}. As it can be noticed, (\ref{equation:t-nf}) takes into account the cost of reaching a frontier cell and does not provide any coordination mechanism. In case a single robot system is extended to a multi-robot system, robots may select the same frontier if they are situated in nearby positions. For instance, \cite{Yamauchi1998} extended his nearest frontier approach to multiple robots using global maps built by each robot with the information provided by all robots. Since robots share the acquired information, exploration is cooperative, however, the selection of target points remains uncoordinated. When robots are in the vicinity of each other it is likely that they are going to choose the same frontier point or region to explore if no other coordination mechanisms are considered.
 
 \begin{figure}[t!]
-	\centering\includegraphics[width=0.85\columnwidth]{./pictures/flow_diagram.pdf}
+	\centering\includegraphics[width=0.75\columnwidth]{./pictures/flow_diagram.pdf}
 	\caption{Flow diagram for the frontier exploration strategies. In case a robot is idle (does not have a goal point), a new goal is computed, assigned, a path to the assigned goal is obtained and a trajectory executed.}
 	\label{fig:flow_diagram}
 \end{figure}
@@ -81,8 +78,6 @@ Another example of cost-utility model is given in \cite{Umari2017}, where a fron
 Bhattacharya et al. \cite{Bhattacharya2013}, \cite{BhattacharyaGhrist2013} focused on the use of cost functions related to information theory, casting the exploration problem as a minimization of map entropy. Authors combined this approach with a grid-based map decomposition with an entropy minimization which results in complete coverage of a known map and full exploration if the scenario is unknown. 
 
 \subsection{Market-Based Approach}
-\tp{Po meni su ovo sve cost-utility problemi, a onda se dalje dijele na 1)Greedy/simple 2)Market-based 3) Optimization based - jesam li u krivu?}
-
 The general concept of the market-based approaches includes independence of robots in terms of planning, and the ability of robots to take team resources into account.
 Relatively close to Burgard's approach in \cite{Burgard2000}, Zlot \cite{Zlot2002} uses a market architecture for the multi-robot mapping and exploration problem that aims to minimize an overall exploration time. In market-based coordinated approach each robot contains a list of goal points and benefits associated with (\ref{equation:cost-utility}). Each robot selects the most profitable target as destination and when after reaching a current goal point, a robot initiates an auction. For each point in auction, each robot makes a bid with its current profit aiming to minimize own travel distance and maximize new area information.
 
